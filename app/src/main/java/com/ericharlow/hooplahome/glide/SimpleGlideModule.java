@@ -20,7 +20,6 @@ public class SimpleGlideModule implements GlideModule {
     }
 
     @Override public void registerComponents(Context context, Glide glide) {
-        // can I remove the integration dependency?
         glide.register(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ServiceProvider.httpClient));
     }
 }

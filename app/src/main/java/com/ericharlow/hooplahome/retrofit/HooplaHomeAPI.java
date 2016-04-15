@@ -9,7 +9,7 @@ import retrofit2.http.Headers;
 /**
  * Created by ericharlow on 4/14/16.
  */
-public interface HooplaHomeClient {
+public interface HooplaHomeAPI {
 
     @GET("/home")
     @Headers("ws-api: 2.1")

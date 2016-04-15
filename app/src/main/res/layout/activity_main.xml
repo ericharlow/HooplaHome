@@ -23,13 +23,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/MusicLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempMusicLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
         <TextView
             android:layout_width="match_parent"
@@ -41,13 +39,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/AudioBooksLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempAudioBooksLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
         <TextView
             android:layout_width="match_parent"
@@ -59,13 +55,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/MoviesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempMoviesLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,13 +71,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/TelevisionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempTelevisionLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
         <TextView
             android:layout_width="match_parent"
@@ -95,13 +87,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/ComicLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempComicLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
         <TextView
             android:layout_width="match_parent"
@@ -113,13 +103,11 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/EbookLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/TempEbookLayout">
-
-        </LinearLayout>
+            android:scrollbars="none" />
 
     </LinearLayout>
 </ScrollView>

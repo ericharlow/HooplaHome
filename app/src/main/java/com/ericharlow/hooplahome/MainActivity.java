@@ -1,22 +1,20 @@
 package com.ericharlow.hooplahome;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.ericharlow.hooplahome.model.DataModel;
 import com.ericharlow.hooplahome.model.HooplaMedia;
 import com.ericharlow.hooplahome.model.MediaCollection;
 import com.ericharlow.hooplahome.model.Title;
-import com.ericharlow.hooplahome.retrofit.HooplaHomeClient;
+import com.ericharlow.hooplahome.retrofit.HooplaHomeAPI;
 import com.ericharlow.hooplahome.retrofit.ServiceProvider;
 import com.ericharlow.hooplahome.retrofit.SuccessResponseCallback;
-import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,24 +23,22 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupUIReferences();
+        setInitialAdapters(new int[]{6,8,9,7,10,5});
         setupMediaCollectionsRequest();
     }
 
     private void setupMediaCollectionsRequest() {
-        HooplaHomeClient client = ServiceProvider.createService(HooplaHomeClient.class);
+        HooplaHomeAPI client = ServiceProvider.createService(HooplaHomeAPI.class);
         Call<MediaCollection> call = client.getMediaCollection();
         call.enqueue(createMediaCollectionCallback());
     }
 
     private Callback<MediaCollection> createMediaCollectionCallback() {
-        return new SuccessResponseCallback<MediaCollection>() {
+        return new SuccessResponseCallback<MediaCollection>(MainActivity.this) {
             @Override
             public void onSuccessResponse(Call<MediaCollection> call, Response<MediaCollection> response) {
                 MediaCollection collection = response.body();
@@ -54,38 +50,68 @@ public class MainActivity extends AppCompatActivity {
     private void populateViews(List<HooplaMedia> collections) {
         for (HooplaMedia media : collections) {
             populateMediaKindView(media);
-            populateImageView(media);
+            populateRecyclerView(media);
         }
-    }
-
-    private void populateImageView(HooplaMedia media) {
-        int viewId = mapLayoutView(media.kind.id);
-        LinearLayout layout = findView(viewId);
-
-        for (Title title : media.titles) {
-            String internetUrl = "http://d2snwnmzyr8jue.cloudfront.net/" + title.artKey + "_270.jpeg";
-            ImageView targetImageView = new ImageView(MainActivity.this);
-            targetImageView.setMaxWidth(400);
-            targetImageView.setMaxHeight(400);
-            targetImageView.setMinimumHeight(400);
-            targetImageView.setMinimumWidth(400);
-            layout.addView(targetImageView);
-
-            Glide
-                    .with(MainActivity.this)
-                    .load(internetUrl)
-                    .override(400,400)
-                    .error(R.drawable.errorplaceholder)
-                    .centerCrop()
-                    .into(targetImageView);
-        }
-
     }
 
     private void populateMediaKindView(HooplaMedia media) {
         int viewId = mapKindView(media.kind.id);
         TextView type = findView(viewId);
         type.setText(media.kind.name);
+    }
+
+    private void populateRecyclerView(HooplaMedia media) {
+        RecyclerView recyclerView = getRecyclerViewById(media.kind.id);
+
+        ArrayList<DataModel> arrayList = new ArrayList<>();
+        for (Title title : media.titles) {
+            DataModel dataModel = new DataModel("http://d2snwnmzyr8jue.cloudfront.net/"
+                    + title.artKey + "_270.jpeg");
+            arrayList.add(dataModel);
+        }
+
+        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(MainActivity.this, arrayList);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setInitialAdapters(int[] ints) {
+        for (int id : ints) {
+            initializeRecyclerViewWithDefaultAdapter(id);
+        }
+    }
+
+    private void initializeRecyclerViewWithDefaultAdapter(int id) {
+        RecyclerView recyclerView = getRecyclerViewById(id);
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+        RecyclerViewAdapter  adapter = new RecyclerViewAdapter(MainActivity.this, new ArrayList<DataModel>(0));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private RecyclerView getRecyclerViewById(int id) {
+        int viewId = mapRecyclerView(id);
+        return findView(viewId);
+    }
+
+    private int mapRecyclerView(int id) {
+        switch (id) {
+            case 6:
+                return R.id.MusicLayout;
+            case 8:
+                return R.id.AudioBooksLayout;
+            case 7:
+                return R.id.MoviesLayout;
+            case 9:
+                return R.id.TelevisionLayout;
+            case 10:
+                return R.id.ComicLayout;
+            case 5:
+                return R.id.EbookLayout;
+            default:
+                return R.id.EbookLayout;
+        }
     }
 
     private int mapKindView(int id) {
@@ -105,29 +131,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return R.id.EbooksMediaType;
         }
-    }
-
-    private int mapLayoutView(int id) {
-        switch (id) {
-            case 6:
-                return R.id.TempMusicLayout;
-            case 8:
-                return R.id.TempAudioBooksLayout;
-            case 7:
-                return R.id.TempMoviesLayout;
-            case 9:
-                return R.id.TempTelevisionLayout;
-            case 10:
-                return R.id.TempComicLayout;
-            case 5:
-                return R.id.TempEbookLayout;
-            default:
-                return R.id.TempEbookLayout;
-        }
-    }
-
-    private void setupUIReferences() {
-        textView = findView(R.id.MusicMediaType);
     }
 
     private <T> T findView(int id) {
