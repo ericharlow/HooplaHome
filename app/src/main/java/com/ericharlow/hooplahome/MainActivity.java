@@ -3,14 +3,19 @@ package com.ericharlow.hooplahome;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.ericharlow.hooplahome.model.HooplaMedia;
 import com.ericharlow.hooplahome.model.MediaCollection;
-import com.ericharlow.hooplahome.model.MediaType;
+import com.ericharlow.hooplahome.model.Title;
 import com.ericharlow.hooplahome.retrofit.HooplaHomeClient;
 import com.ericharlow.hooplahome.retrofit.ServiceProvider;
+import com.ericharlow.hooplahome.retrofit.SuccessResponseCallback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,36 +42,53 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Callback<MediaCollection> createMediaCollectionCallback() {
-        return new Callback<MediaCollection>() {
+        return new SuccessResponseCallback<MediaCollection>() {
             @Override
-            public void onResponse(Call<MediaCollection> call, Response<MediaCollection> response) {
-                if (response.isSuccessful()) {
-                    MediaCollection collection = response.body();
-                    populateMediaTypeViews(collection.collections);
-//                    textView.setText(collection.collections.toString());
-                } else {
-                    Toast.makeText(MainActivity.this, "Response Error", Toast.LENGTH_SHORT).show();
-                    Log.d("MainActivity", "response error");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<MediaCollection> call, Throwable t) {
-                Toast.makeText(MainActivity.this,"Callback Failure",Toast.LENGTH_LONG).show();
-                Log.d("MainActivity", "Callback Failure");
+            public void onSuccessResponse(Call<MediaCollection> call, Response<MediaCollection> response) {
+                MediaCollection collection = response.body();
+                populateViews(collection.collections);
             }
         };
     }
 
-    private void populateMediaTypeViews(List<HooplaMedia> collections) {
+    private void populateViews(List<HooplaMedia> collections) {
         for (HooplaMedia media : collections) {
-            int viewId = map(media.kind.id);
-            TextView type = findView(viewId);
-            type.setText(media.kind.name);
+            populateMediaKindView(media);
+            populateImageView(media);
         }
     }
 
-    private int map(int id) {
+    private void populateImageView(HooplaMedia media) {
+        int viewId = mapLayoutView(media.kind.id);
+        LinearLayout layout = findView(viewId);
+
+        for (Title title : media.titles) {
+            String internetUrl = "http://d2snwnmzyr8jue.cloudfront.net/" + title.artKey + "_270.jpeg";
+            ImageView targetImageView = new ImageView(MainActivity.this);
+            targetImageView.setMaxWidth(400);
+            targetImageView.setMaxHeight(400);
+            targetImageView.setMinimumHeight(400);
+            targetImageView.setMinimumWidth(400);
+            layout.addView(targetImageView);
+
+            Glide
+                    .with(MainActivity.this)
+                    .load(internetUrl)
+                    .override(400,400)
+                    .error(R.drawable.errorplaceholder)
+                    .centerCrop()
+                    .into(targetImageView);
+        }
+
+    }
+
+    private void populateMediaKindView(HooplaMedia media) {
+        int viewId = mapKindView(media.kind.id);
+        TextView type = findView(viewId);
+        type.setText(media.kind.name);
+    }
+
+    private int mapKindView(int id) {
         switch (id) {
             case 6:
                 return R.id.MusicMediaType;
@@ -82,6 +104,25 @@ public class MainActivity extends AppCompatActivity {
                 return R.id.EbooksMediaType;
             default:
                 return R.id.EbooksMediaType;
+        }
+    }
+
+    private int mapLayoutView(int id) {
+        switch (id) {
+            case 6:
+                return R.id.TempMusicLayout;
+            case 8:
+                return R.id.TempAudioBooksLayout;
+            case 7:
+                return R.id.TempMoviesLayout;
+            case 9:
+                return R.id.TempTelevisionLayout;
+            case 10:
+                return R.id.TempComicLayout;
+            case 5:
+                return R.id.TempEbookLayout;
+            default:
+                return R.id.TempEbookLayout;
         }
     }
 

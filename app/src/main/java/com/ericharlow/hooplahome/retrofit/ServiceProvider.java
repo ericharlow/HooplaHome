@@ -10,7 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceProvider {
     public static final String API_BASE_URL = "https://hoopla-ws-dev.hoopladigital.com";
 
-    public static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+    public static OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+    public static OkHttpClient httpClient;
 
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
@@ -20,8 +21,8 @@ public class ServiceProvider {
     public static <S> S createService(Class<S> serviceClass) {
         // for debugging
 //        httpClient.interceptors().add(new LoggingInterceptor());
-
-        Retrofit retrofit = builder.client(httpClient.build()).build();
+        httpClient = httpClientBuilder.build();
+        Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
 

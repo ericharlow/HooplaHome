@@ -19,13 +19,16 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/MusicMediaType"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempMusicLayout">
+
         </LinearLayout>
 
         <TextView
@@ -34,13 +37,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/AudioBooksMediaType"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempAudioBooksLayout">
+
         </LinearLayout>
 
         <TextView
@@ -49,13 +55,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/MoviesMediaType"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempMoviesLayout">
+
         </LinearLayout>
 
         <TextView
@@ -64,13 +73,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/TelevisionMediaType"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempTelevisionLayout">
+
         </LinearLayout>
 
         <TextView
@@ -79,13 +91,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/ComicMediaType"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempComicLayout">
+
         </LinearLayout>
 
         <TextView
@@ -94,13 +109,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/EbooksMediaType"
             android:layout_gravity="center_horizontal"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/TempEbookLayout">
+
         </LinearLayout>
 
     </LinearLayout>

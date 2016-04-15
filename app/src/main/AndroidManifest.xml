@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="com.ericharlow.hooplahome.glide.SimpleGlideModule"
+            android:value="GlideModule" />
     </application>
 
 </manifest>
